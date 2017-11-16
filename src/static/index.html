@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="static/css/styles.css">
+</head>
+
+<body>
+<script src="static/lib/jquery-3.2.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#getprimes").click(function (event) {
+            $.get("api/v1/primes", function (data, status) {
+                $("#primedata").prepend("<p>" + data + "</p>")
+            });
+        });
+    });
+</script>
+<div>
+    <button id="getprimes">Get me primes!</button>
+</div>
+<div id="primedata">
+
+</div>
+</body>
+
+</html>
