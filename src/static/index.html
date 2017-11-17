@@ -10,8 +10,11 @@
 <script>
     $(document).ready(function () {
         $("#getprimes").click(function (event) {
-            $.get("api/v1/primes", function (data, status) {
-                $("#primedata").prepend("<p>" + data + "</p>")
+            $("#primedata").prepend("<p>---===***===---</p>")
+            $.get("api/v1/primes", function (dataStr, status) {
+                $.each(JSON.parse(dataStr), function(index, value){
+                    $("#primedata").prepend("<p>" + value + "</p>")
+                });
             });
         });
     });

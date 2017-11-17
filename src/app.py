@@ -6,17 +6,30 @@ from bottle import route, run, static_file
 # import os for reading environment variables
 import os
 import math
+import json
 
 
 def get_number_of_prime_bits():
+    """
+    The number of bits to pull from rng for prime candidates
+    :return: number of bits as int
+    """
     return int(os.environ.get('N_BITS', '40'))
 
+
 def get_search_time():
+    """
+    The number of seconds to search for primes
+    :return: number of seconds as int
+    """
     return int(os.environ.get('SEARCH_TIME', '2'))
+
 
 def get_static_root():
     """
     Return root directory for static content
+
+    :return static content root directory as string
     """
     return os.environ.get('STATIC_CONTENT_ROOT', '/opt/app-root/src/static')
 
@@ -62,15 +75,15 @@ def primes():
         return True
 
     end_ts = time.time() + get_search_time()
-    primes = []
+    prime_list = []
     while time.time() < end_ts:
-        n = random.getrandbits(get_number_of_prime_bits())
-        if is_prime(n):
-            primes.append(n)
-    primes.sort()
-    msg = 'Found %d primes for you: %s' % (len(primes), primes)
-    print(msg)
-    return msg
+        candidate = random.getrandbits(get_number_of_prime_bits())
+        if is_prime(candidate):
+            prime_list.append(candidate)
+    prime_list.sort(reverse=True)
+    res = json.dumps(prime_list)
+    print(res)
+    return res
 
 
 if __name__ == '__main__':
