@@ -1,11 +1,9 @@
-# import key pieces from bottle package
-import random
-import time
-
 from bottle import route, run, static_file
-# import os for reading environment variables
+
 import os
 import math
+import random
+import time
 import json
 
 
@@ -60,7 +58,7 @@ def health():
 
 @route('/api/v1/primes')
 def primes():
-    # code from https://stackoverflow.com/questions/4114167/
+    # algorithm from https://stackoverflow.com/questions/4114167/
     def is_prime(n):
         if n == 2:
             return True
@@ -74,13 +72,18 @@ def primes():
                 return False
         return True
 
+    # calculate the end time
     end_ts = time.time() + get_search_time()
+
+    # loop until end time (will actually go over, but that's life)
     prime_list = []
     while time.time() < end_ts:
         candidate = random.getrandbits(get_number_of_prime_bits())
         if is_prime(candidate):
             prime_list.append(candidate)
     prime_list.sort(reverse=True)
+
+    # return the prime list as JSON
     res = json.dumps(prime_list)
     print(res)
     return res
